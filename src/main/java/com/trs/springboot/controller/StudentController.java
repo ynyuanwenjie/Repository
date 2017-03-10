@@ -17,7 +17,6 @@ public class StudentController {
     public String user(@PathVariable("id")Student student, Model model) {
         model.addAttribute("student",student);
         System.out.println(student);
-
         return "student";
     }
 
