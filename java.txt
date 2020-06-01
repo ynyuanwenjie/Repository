@@ -1,0 +1,255 @@
+java -classpath springboot-1.0-SNAPSHOT.jar com.trs.springboot.DemoApplication
+nohup java -Xms512m -Xmx512m -XX:MaxNewSize=256m -Dspring.profiles.active=uat -jar eureka-server.jar > /dev/null 2>&1 &
+---------------------------------------------------------------------------------------------------------
+
+@Test
+public void testReadFile() throws Exception {
+	String filename = "C:\\Users\\EDZ\\Desktop\\reSendMobiles.txt";
+	ClassLoader classLoader = getClass().getClassLoader();
+	File file = new File(filename);
+	StringBuilder resultStringBuilder = new StringBuilder();
+	try (BufferedReader br
+				 = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
+		String line;
+		while ((line = br.readLine()) != null) {
+			String[] columns = line.split(",");
+			System.out.println(columns[0]+"---"+columns[1]);
+		}
+	}
+}
+
+#脱敏	
+StringUtils.overlay("53212819860505411X","****",6,14);
+StringUtils.overlay("15126646644","****",3,7);
+#缩写
+StringUtils.abbreviate("yuanwenjieasdfasdfasdfasdf",10);
+
+@Test
+public void testReadFile() throws Exception {
+	BufferedReader br = new BufferedReader(new FileReader("lambdasinaction/chap3/data.txt"))) 
+	String line;
+	while ((line = br.readLine()) != null) {
+		String[] columns = line.split(",");
+		System.out.println(columns[0]+"---"+columns[1]);
+	}
+}
+
+# 保留两位小数
+BigDecimal(10).divide(new BigDecimal(3),2, RoundingMode.HALF_UP).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+
+#比较两个日期
+long diffDay = ChronoUnit.DAYS.between(n, LocalDate.now());
+
+List<LoanMarketDto> randomOne = loanMarketDtos.stream()
+                            .collect(Collectors.collectingAndThen(Collectors.toList(), collected -> {
+                                Collections.shuffle(collected);
+                                return collected.stream();
+                            }))
+                            .limit(1)
+                            .collect(Collectors.toList());
+
+							
+#list.stream().collect(Collectors.joining("|","|","|"));
+						
+#统计最近一天失败率
+SELECT t.method_name ,
+	IFNULL(t1.total,0) as '成功数',
+	IFNULL(t2.total,0) as '失败数',
+	IFNULL(ROUND(t2.total *100/t1.total,2),0) as '失败率 %'
+from (
+ SELECT t.method_name from t_log t where t.created_time >= DATE_SUB(CURDATE(),INTERVAL 1 DAY)  GROUP BY t.method_name
+) t LEFT JOIN (
+		SELECT t.method_name,count(1) as total from t_log t where t.`level` = 'INFO' GROUP BY t.method_name
+) t1 on t.method_name = t1.method_name LEFT JOIN (
+	SELECT t.method_name,count(1) as total from t_log t where t.`level` = 'ERROR' GROUP BY t.method_name
+) t2 on t1.method_name = t2.method_name
+ORDER BY t2.total  desc;
+
+#分组
+List<PhoneDto> unique = phoneDtoList.stream().collect(
+		collectingAndThen(
+				toCollection(() -> new TreeSet<>(
+						Comparator.comparing(PhoneDto::getPhoneName)
+								.thenComparing(PhoneDto::getCapacity)
+								.thenComparingDouble(PhoneDto::getLoanAmount))),
+				ArrayList::new)
+);
+
+#RestTemplate
+RestTemplate restTemplate = new RestTemplate();
+	ResponseEntity<List<Employee>> response =
+			restTemplate.exchange(
+					"http://localhost:8082/spring-rest/employees/",
+					HttpMethod.GET,
+					null,
+					new ParameterizedTypeReference<List<Employee>>(){});
+	List<Employee> employees = response.getBody();
+
+#https://www.baeldung.com/spring-classpath-file-access
+
+@Test
+public void whenResourceAsFile_thenReadSuccessful() 
+  throws IOException {
+  
+    File resource = new ClassPathResource(
+      "data/employees.dat").getFile();
+    String employees = new String(
+      Files.readAllBytes(resource.toPath()));
+    assertEquals(
+      "Joe Employee,Jan Employee,James T. Employee", 
+      employees);
+}
+
+
+
+InitializingBean
+#SpringProperties
+DisposableBean
+@DependsOn("xxlJobAdminConfig")
+#Collections.frequency();
+
+
+
+#获取随机数
+ private int getRandomNumberInRange(int min, int max) {
+        Random r = new Random();
+        return r.ints(min, (max + 1)).findFirst().getAsInt();
+    }
+	
+	
+List<String> uniqueCharacters = 
+ words.stream() 
+ .map(w -> w.split("")) 
+ .flatMap(Arrays::stream) 
+ .distinct() 
+ .collect(Collectors.toList());
+
+#扁平化处理 
+List<Integer> numbers2 = Arrays.asList(3, 4); 
+List<int[]> pairs = 
+ numbers1.stream() 
+ .flatMap(i -> numbers2.stream() 
+ .map(j -> new int[]{i, j}) 
+ ) 
+ .collect(toList());
+ 
+#LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+#https://blog.frankel.ch/multiple-modules-spring-boot-apps/
+#Service Mesh + Kubernetes = More Secure Microservices
+
+#Base64
+String base64 = Base64.getEncoder().encodeToString("aaa".getBytes());
+System.out.println(base64);
+byte[] bytes = Base64.getDecoder().decode(base64);
+System.out.println(new String(bytes));
+
+#新启动一个线程处理问题
+new Thread(() -> {
+	applyService.applyAudit(baseRequestDto);
+}).start();
+
+#Spring 浅拷贝
+BeanUtils.copyProperties(orderBankCard,orderCardCopy);
+
+https://cloud.spring.io/spring-cloud-static/spring-cloud-openfeign/2.2.2.RELEASE/reference/html/
+https://www.baeldung.com/
+
+原符号       <        <=      >       >=       &        '        "
+替换符号    &lt;    &lt;=   &gt;    &gt;=   &amp;   &apos;  &quot;
+
+
+
+PageHelper
+Collections
+#排序
+sorted = strings.stream()
+	.sorted(Comparator.comparingInt(String::length)
+			.thenComparing(Comparator.reverseOrder()))
+	.collect(Collectors.toList())
+
+@PostConstruct  
+public void init() {  
+    System.out.println("初始化方法执行");  
+}
+
+#Arthas
+https://alibaba.github.io/arthas/dashboard.html
+http://hyuga.top/2019/07/30/arthas/
+http://hyuga.top/
+
+
+
+
+#日期转换
+ public static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+	return dateToConvert.toInstant()
+			.atZone(ZoneId.systemDefault())
+			.toLocalDate();
+}
+
+public static Date convertToDateViaInstant(LocalDate dateToConvert) {
+	return java.util.Date.from(dateToConvert.atStartOfDay()
+			.atZone(ZoneId.systemDefault())
+			.toInstant());
+}
+
+#TimeUnit.SECONDS.sleep(1L);
+
+#参数校验
+@Pattern(regexp = "((^Man$|^Woman$|^UGM$))", message = "sex 值不在可选范围")
+@NotNull(message = "sex 不能为空")
+private String sex;
+
+@Pattern(regexp = "^1(3|4|5|7|8)\\d{9}$",message = "手机号码格式错误")
+@NotBlank(message = "手机号码不能为空")
+private String mobileNo;
+
+@NotBlank(message =)   验证字符串非 null，且长度必须大于 0    
+@Email  被注释的元素必须是电子邮箱地址    
+@Length(min=,max=)  被注释的字符串的大小必须在指定的范围内    
+@NotEmpty   被注释的字符串的必须非空    
+@Range(min=,max=,message=)  被注释的元素必须在合适的范围内
+
+public static <T>  void validate(T t) throws ValidationException {
+	ValidatorFactory vFactory = Validation.buildDefaultValidatorFactory();
+	Validator validator = vFactory.getValidator();
+	Set<ConstraintViolation<T>> set =  validator.validate(t);
+	if(set.size()>0){
+		throw new ValidationException(set.iterator().next().getMessage());
+	}
+}
+
+#ThreadLocalRandom.current().nextInt(10)
+#DisposableBean
+#ab
+
+/**
+ * 获取 min - max 之间的随机数
+ *
+ * @param min
+ * @param max
+ * @return
+ */
+private int getRandomNumberInRange(int min, int max) {
+	Random r = new Random();
+	return r.ints(min, (max + 1)).findFirst().getAsInt();
+}
+
+#DigestUtils
+#RandomStringUtils.randomNumeric(n);
+#IOUtils
+#FileUtils
+#FilenameUtils
+#StringEscapeUtils
+#MYBATIS in 查询
+<if test="channelCodeList !=null  ">
+	and userSource in
+	<foreach item="item" index="index" collection="channelCodeList" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+</if>
+
+https://ghthou.github.io/2018/01/14/Apache-Common-Lang-%E5%AD%A6%E4%B9%A0%E4%B9%8B-concurrent-%E5%8C%85/
+
+
+
